@@ -54,16 +54,23 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif; ba
 .sheet-item.baidu { background:#ff8f1f; color:#fff; }
 .sheet-item.didi { background:#2db94e; color:#fff; font-weight:600; }
 .sheet-cancel { display:block; width:100%; border:none; background:transparent; padding:12px 0 6px; font-size:14px; color:#999; text-align:center; }
+.card { background:#fff; border-radius:10px; padding:12px; margin-bottom:8px; box-shadow:0 1px 4px rgba(0,0,0,.05); }
+.card-t { font-size:14px; font-weight:700; color:#1677ff; margin-bottom:6px; }
+.card-b { font-size:13px; color:#333; line-height:1.7; }
+.copy-btn { width:100%; border:none; background:#1677ff; color:#fff; font-size:15px; border-radius:8px; padding:10px 0; }
+.copy-btn:active { opacity:.7; }
+.copy-tip { font-size:12px; color:#22a06b; text-align:center; margin-top:6px; min-height:16px; }
 </style>
 </head>
 <body>
 <div class="header">
   <h1>济南国庆行</h1>
-  <p>10.2-10.5 ｜ 点「导航」选择高德 / 百度 / 滴滴；微信里请用 Safari 打开，出门前先点开一次即可离线使用</p>
+  <p>10.2-10.5 ｜ 行程时间表 / 地点导航 / 出行准备 三个标签页；微信里请用 Safari 打开，出门前先点开一次即可离线使用</p>
 </div>
 <div class="tabs">
   <button id="tab1" class="on" onclick="sw(1)">行程时间表</button>
   <button id="tab2" onclick="sw(2)">地点导航</button>
+  <button id="tab3" onclick="sw(3)">出行准备</button>
 </div>
 
 <div id="p1" class="panel on">
@@ -92,6 +99,12 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif; ba
 <div class="pl"><div class="pl-l"><div class="pl-n">山东博物馆</div><div class="pl-d">免费 必须小程序预约</div></div><div class="pl-b"><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0582,36.6458&name=%E5%B1%B1%E4%B8%9C%E5%8D%9A%E7%89%A9%E9%A6%86&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.65146,117.064825&title=%E5%B1%B1%E4%B8%9C%E5%8D%9A%E7%89%A9%E9%A6%86&content=%E5%85%8D%E8%B4%B9%20%E5%BF%85%E9%A1%BB%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%A2%84%E7%BA%A6&output=html&src=marvis" onclick="openNav(this)">导航</button></div></div>
 <div class="pl"><div class="pl-l"><div class="pl-n">环城公园·护城河</div><div class="pl-d">免费 散步</div></div><div class="pl-b"><button class="go" data-gaode="https://uri.amap.com/marker?position=117.028,36.663&name=%E7%8E%AF%E5%9F%8E%E5%85%AC%E5%9B%AD%C2%B7%E6%8A%A4%E5%9F%8E%E6%B2%B3&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.668655,117.034626&title=%E7%8E%AF%E5%9F%8E%E5%85%AC%E5%9B%AD%C2%B7%E6%8A%A4%E5%9F%8E%E6%B2%B3&content=%E5%85%8D%E8%B4%B9%20%E5%A4%9C%E6%99%AF&output=html&src=marvis" onclick="openNav(this)">导航</button></div></div>
 <div class="pl"><div class="pl-l"><div class="pl-n">百花公园</div><div class="pl-d">免费 散步</div></div><div class="pl-b"><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0751,36.6809&name=%E7%99%BE%E8%8A%B1%E5%85%AC%E5%9B%AD&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.686564,117.081723&title=%E7%99%BE%E8%8A%B1%E5%85%AC%E5%9B%AD&content=%E5%85%8D%E8%B4%B9%20%E6%95%A3%E6%AD%A5&output=html&src=marvis" onclick="openNav(this)">导航</button></div></div>
+</div>
+<div id="p3" class="panel">
+<div class="tip">出行前看天气、查票务，一键复制行程发给同行人。</div>
+<div class="card"><div class="card-t">10月济南天气参考</div><div class="card-b">白天 12-22℃，穿薄长袖；早晚凉需加外套，备伞；山区/泉边风大，备件防风外套；出行前 1-2 天再查最新预报。</div></div>
+<div class="card"><div class="card-t">票务速查</div><div class="card-b">· 趵突泉：40元（学生20）公众号购票<br>· 千佛山：30元（学生15）线上购票<br>· 山东博物馆：免费，须「山东博物馆」小程序实名预约<br>· 大明湖 / 五龙潭 / 黑虎泉 / 解放阁 / 曲水亭街 / 芙蓉街 / 宽厚里 / 环城公园 / 百花公园 / 洪家楼教堂 / 超然楼 / 泉城广场：均免费</div></div>
+<div class="card"><div class="card-t">一键复制行程</div><div class="card-b"><button class="copy-btn" onclick="copyItinerary()">复制行程文本</button><div class="copy-tip" id="copyTip"></div></div></div>
 </div>
 <div class="foot">济南国庆行 · PWA 版 ｜ 点右上角分享 → 添加到主屏幕，即可像 App 一样使用</div>
 
@@ -159,8 +172,21 @@ function goDidi() {
 function sw(n) {
   document.getElementById("tab1").className = n === 1 ? "on" : "";
   document.getElementById("tab2").className = n === 2 ? "on" : "";
+  document.getElementById("tab3").className = n === 3 ? "on" : "";
   document.getElementById("p1").className = n === 1 ? "panel on" : "panel";
   document.getElementById("p2").className = n === 2 ? "panel on" : "panel";
+  document.getElementById("p3").className = n === 3 ? "panel on" : "panel";
+}
+function copyItinerary() {
+  var txt = '济南行 10.2-10.5\n' +
+    '【10.2 周五】09:18 到济南西→酒店寄存→洪家楼教堂→草包包子午餐→大明湖→曲水亭街→芙蓉街→入住→超然楼夜景+宽厚里\n' +
+    '【10.3 周六】趵突泉(40元)→五龙潭→泉城广场→超意兴午餐(把子肉)→千佛山(30元)→黑虎泉+解放阁→晚餐\n' +
+    '【10.4 周日】山东博物馆(需小程序预约)→药膳把子肉午餐→环城公园·护城河→百花公园→晚餐→收拾行李\n' +
+    '【10.5 周一】退房寄存→早餐(甜沫油旋)→大明湖补漏/买特产→午餐→14:00出发→16:30 高铁回衡水\n' +
+    '住宿：全季酒店(山大路店) 3晚';
+  copyText(txt);
+  var tip = document.getElementById("copyTip");
+  if (tip) tip.textContent = '已复制行程文本，可直接粘贴发送';
 }
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
 </script>
