@@ -266,7 +266,7 @@ function copyItinerary() {
   if (tip) tip.textContent = '已复制行程文本，可直接粘贴发送';
 }
 /* 打包清单 */
-var PACK_ITEMS = ['身份证','充电宝','雨伞','洗漱包','换洗衣物','常用药','纸巾湿巾','零食','水杯','防晒'];
+var PACK_ITEMS = ['身份证','充电宝','雨伞','洗漱包','换洗衣物','常用药','纸巾湿巾','零食','水杯','防晒','手机充电器（含数据线）','耳机','少量现金','银行卡','薄外套（早晚温差大）','舒适运动鞋（走路多）','拖鞋','收纳袋/塑料袋','创可贴','颈枕（高铁用）'];
 function renderPack() {
   var saved = {};
   try { saved = JSON.parse(localStorage.getItem('jinan_pack') || '{}'); } catch (e) {}
