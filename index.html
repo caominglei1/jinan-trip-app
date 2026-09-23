@@ -60,25 +60,74 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif; ba
 .copy-btn { width:100%; border:none; background:#1677ff; color:#fff; font-size:15px; border-radius:8px; padding:10px 0; }
 .copy-btn:active { opacity:.7; }
 .copy-tip { font-size:12px; color:#22a06b; text-align:center; margin-top:6px; min-height:16px; }
+/* 新增功能样式 */
+.header-top { display:flex; align-items:center; justify-content:space-between; }
+.theme-btn { border:1px solid rgba(255,255,255,.6); background:rgba(255,255,255,.15); color:#fff; font-size:12px; border-radius:14px; padding:4px 10px; cursor:pointer; }
+.theme-btn:active { opacity:.7; }
+.countdown { display:inline-block; margin-top:6px; background:rgba(255,255,255,.2); border-radius:12px; padding:3px 10px; font-size:13px; font-weight:600; }
+.day.hl { border:2px solid #1677ff; box-shadow:0 0 0 2px rgba(22,119,255,.15); }
+.pack-item { display:flex; align-items:center; gap:8px; padding:5px 0; border-bottom:1px dashed #eee; font-size:14px; color:#333; }
+.pack-item:last-child { border-bottom:none; }
+.pack-item input { width:18px; height:18px; accent-color:#1677ff; flex-shrink:0; }
+.pack-item.done span { color:#999; text-decoration:line-through; }
+.exp-row { display:flex; gap:6px; margin-bottom:8px; }
+.exp-in { flex:1; min-width:0; border:1px solid #ddd; border-radius:8px; padding:8px 10px; font-size:14px; color:#333; background:#fff; }
+.exp-amt { max-width:90px; }
+.exp-item { display:flex; align-items:center; gap:8px; padding:7px 0; border-bottom:1px dashed #eee; font-size:14px; color:#333; }
+.exp-item:last-child { border-bottom:none; }
+.exp-info { flex:1; }
+.exp-name { font-weight:600; color:#222; }
+.exp-sub { font-size:12px; color:#888; }
+.exp-amt-t { color:#1677ff; font-weight:700; }
+.exp-del { border:none; background:#ff4d4f; color:#fff; border-radius:6px; padding:4px 9px; font-size:12px; }
+.exp-total { text-align:right; font-size:15px; font-weight:700; color:#222; padding:8px 0 4px; }
+.exp-clear { width:100%; border:1px solid #ff4d4f; background:none; color:#ff4d4f; border-radius:8px; padding:8px 0; font-size:14px; margin-top:6px; cursor:pointer; }
+.exp-clear:active { opacity:.7; }
+/* 深色模式 */
+html[data-theme="dark"] body { background:#121417; }
+html[data-theme="dark"] .header { background:linear-gradient(135deg,#1e3a8a,#0f2557); }
+html[data-theme="dark"] .tabs { background:#1c1f23; border-bottom-color:#2a2e34; }
+html[data-theme="dark"] .tabs button { color:#9aa0a6; }
+html[data-theme="dark"] .tabs button.on { color:#60a5fa; border-bottom-color:#60a5fa; }
+html[data-theme="dark"] .tip { background:#2a2410; border-color:#4a3d17; color:#d4b45a; }
+html[data-theme="dark"] .day, html[data-theme="dark"] .pl, html[data-theme="dark"] .card { background:#1c1f23; box-shadow:0 1px 4px rgba(0,0,0,.3); }
+html[data-theme="dark"] .row { border-bottom-color:#2a2e34; }
+html[data-theme="dark"] .n, html[data-theme="dark"] .pl-n, html[data-theme="dark"] .card-b, html[data-theme="dark"] .exp-name, html[data-theme="dark"] .exp-total { color:#e5e7eb; }
+html[data-theme="dark"] .note, html[data-theme="dark"] .pl-d, html[data-theme="dark"] .exp-sub { color:#9aa0a6; }
+html[data-theme="dark"] .t, html[data-theme="dark"] .card-t, html[data-theme="dark"] .exp-amt-t { color:#60a5fa; }
+html[data-theme="dark"] .foot { background:#1c1f23; border-top-color:#2a2e34; color:#6b7280; }
+html[data-theme="dark"] .sheet { background:#1c1f23; }
+html[data-theme="dark"] .sheet-title { color:#e5e7eb; }
+html[data-theme="dark"] .sheet-cancel { color:#9aa0a6; }
+html[data-theme="dark"] .exp-in { background:#121417; border-color:#2a2e34; color:#e5e7eb; }
+html[data-theme="dark"] .pack-item { border-bottom-color:#2a2e34; color:#e5e7eb; }
+html[data-theme="dark"] .pack-item.done span { color:#6b7280; }
+html[data-theme="dark"] .exp-item { border-bottom-color:#2a2e34; color:#e5e7eb; }
+html[data-theme="dark"] .exp-clear { border-color:#ff6b6e; color:#ff6b6e; }
 </style>
 </head>
 <body>
 <div class="header">
-  <h1>济南国庆行</h1>
-  <p>10.2-10.5 ｜ 行程时间表 / 地点导航 / 出行准备 三个标签页；微信里请用 Safari 打开，出门前先点开一次即可离线使用</p>
+  <div class="header-top">
+    <h1>济南国庆行</h1>
+    <button id="themeBtn" class="theme-btn" onclick="toggleTheme()">深色模式</button>
+  </div>
+  <div class="countdown" id="countdown">距出发还有 N 天</div>
+  <p>10.2-10.5 ｜ 行程时间表 / 地点导航 / 出行准备 / 旅行记账 四个标签页；微信里请用 Safari 打开，出门前先点开一次即可离线使用</p>
 </div>
 <div class="tabs">
   <button id="tab1" class="on" onclick="sw(1)">行程时间表</button>
   <button id="tab2" onclick="sw(2)">地点导航</button>
   <button id="tab3" onclick="sw(3)">出行准备</button>
+  <button id="tab4" onclick="sw(4)">旅行记账</button>
 </div>
 
 <div id="p1" class="panel on">
 <div class="tip">每个地点一个「导航」按钮，点击自动复制地点名，再选择高德地图 / 百度地图 / 滴滴打车。</div>
-<div class="day"><div class="dt">10.2 周五 · 到达日</div><div class="row"><span class="t">09:18</span><span class="n">济南西站</span><span class="note">到达</span><button class="go" data-gaode="https://uri.amap.com/marker?position=116.8892,36.6757&name=%E6%B5%8E%E5%8D%97%E8%A5%BF%E7%AB%99&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.681375,116.89582&title=%E6%B5%8E%E5%8D%97%E8%A5%BF%E7%AB%99&content=10.2%20%E4%B8%8A%E5%8D%88%E5%88%B0%E8%BE%BE%20/%2010.5%20%E4%B8%8B%E5%8D%88%E8%BF%94%E8%A1%A1%E6%B0%B4&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">09:45</span><span class="n">全季酒店（山大路店）</span><span class="note">打车去寄存行李</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0525,36.6725&name=%E5%85%A8%E5%AD%A3%E9%85%92%E5%BA%97%EF%BC%88%E5%B1%B1%E5%A4%A7%E8%B7%AF%E5%BA%97%EF%BC%89&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.678159,117.059125&title=%E5%85%A8%E5%AD%A3%E9%85%92%E5%BA%97%EF%BC%88%E5%B1%B1%E5%A4%A7%E8%B7%AF%E5%BA%97%EF%BC%89&content=%E4%BD%8F%E5%AE%BF%203%20%E6%99%9A&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">11:00</span><span class="n">洪家楼教堂</span><span class="note">拍照</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0607,36.6802&name=%E6%B4%AA%E5%AE%B6%E6%A5%BC%E6%95%99%E5%A0%82&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.68586,117.067324&title=%E6%B4%AA%E5%AE%B6%E6%A5%BC%E6%95%99%E5%A0%82&content=%E5%85%8D%E8%B4%B9%20%E6%8B%8D%E7%85%A7&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">12:00</span><span class="n">草包包子午餐</span><span class="note">济南老字号</span></div><div class="row"><span class="t">13:30</span><span class="n">大明湖</span><span class="note">免费 散步</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0247,36.6783&name=%E5%A4%A7%E6%98%8E%E6%B9%96&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.683955,117.031326&title=%E5%A4%A7%E6%98%8E%E6%B9%96&content=%E5%85%8D%E8%B4%B9%20%E6%97%A0%E9%9C%80%E9%A2%84%E7%BA%A6&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">15:30</span><span class="n">曲水亭街</span><span class="note">免费古街</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0252,36.6688&name=%E6%9B%B2%E6%B0%B4%E4%BA%AD%E8%A1%97&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.674455,117.031826&title=%E6%9B%B2%E6%B0%B4%E4%BA%AD%E8%A1%97&content=%E5%85%8D%E8%B4%B9%E5%8F%A4%E8%A1%97%20%E6%8B%8D%E7%85%A7&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">16:30</span><span class="n">芙蓉街</span><span class="note">油旋甜沫小吃</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0237,36.666&name=%E8%8A%99%E8%93%89%E8%A1%97&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.671655,117.030326&title=%E8%8A%99%E8%93%89%E8%A1%97&content=%E5%B0%8F%E5%90%83%EF%BC%9A%E6%B2%B9%E6%97%8B%20%E7%94%9C%E6%B2%AB&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">18:00</span><span class="n">回酒店</span><span class="note">入住休整</span></div><div class="row"><span class="t">19:00</span><span class="n">超然楼</span><span class="note">夜景 / 宽厚里夜市</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.027,36.676&name=%E8%B6%85%E7%84%B6%E6%A5%BC&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.681655,117.033626&title=%E8%B6%85%E7%84%B6%E6%A5%BC&content=%E7%BA%A6%2019%3A00%20%E4%BA%AE%E7%81%AF&output=html&src=marvis" onclick="openNav(this)">导航</button></div></div>
-<div class="day"><div class="dt">10.3 周六 · 泉水核心日</div><div class="row"><span class="t">07:30</span><span class="n">起床早餐</span><span class="note">酒店用餐</span></div><div class="row"><span class="t">08:00</span><span class="n">趵突泉</span><span class="note">40元 早去人少</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.02,36.6617&name=%E8%B6%B5%E7%AA%81%E6%B3%89&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.667355,117.026626&title=%E8%B6%B5%E7%AA%81%E6%B3%89&content=%E9%97%A8%E7%A5%A8%2040%20%E5%85%83%20%E5%85%AC%E4%BC%97%E5%8F%B7%E8%B4%AD%E7%A5%A8&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">10:30</span><span class="n">五龙潭</span><span class="note">免费</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0171,36.6651&name=%E4%BA%94%E9%BE%99%E6%BD%AD&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.670755,117.023726&title=%E4%BA%94%E9%BE%99%E6%BD%AD&content=%E5%85%8D%E8%B4%B9%20%E6%97%A0%E9%9C%80%E9%A2%84%E7%BA%A6&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">11:30</span><span class="n">泉城广场</span><span class="note">顺路打卡</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0256,36.6598&name=%E6%B3%89%E5%9F%8E%E5%B9%BF%E5%9C%BA&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.665455,117.032226&title=%E6%B3%89%E5%9F%8E%E5%B9%BF%E5%9C%BA&content=%E5%85%8D%E8%B4%B9%20%E9%9F%B3%E4%B9%90%E5%96%B7%E6%B3%89&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">12:00</span><span class="n">超意兴午餐</span><span class="note">把子肉</span></div><div class="row"><span class="t">13:30</span><span class="n">千佛山</span><span class="note">30元 登顶看全城</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0341,36.6358&name=%E5%8D%83%E4%BD%9B%E5%B1%B1&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.641456,117.040727&title=%E5%8D%83%E4%BD%9B%E5%B1%B1&content=%E9%97%A8%E7%A5%A8%2030%20%E5%85%83%20%E7%BA%BF%E4%B8%8A%E4%B9%B0&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">17:00</span><span class="n">黑虎泉+解放阁</span><span class="note">免费 尝泉水·登阁</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0296,36.6605&name=%E9%BB%91%E8%99%8E%E6%B3%89&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.666156,117.036226&title=%E9%BB%91%E8%99%8E%E6%B3%89&content=%E5%85%8D%E8%B4%B9%20%E5%B0%9D%E6%B3%89%E6%B0%B4&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">18:30</span><span class="n">晚餐</span><span class="note">便宜坊/春江饭店</span></div><div class="row"><span class="t">20:00</span><span class="n">回酒店</span><span class="note">休息</span></div></div>
-<div class="day"><div class="dt">10.4 周日 · 文化休闲日</div><div class="row"><span class="t">08:30</span><span class="n">起床早餐</span><span class="note">酒店用餐</span></div><div class="row"><span class="t">09:40</span><span class="n">山东博物馆</span><span class="note">免费 小程序预约</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0582,36.6458&name=%E5%B1%B1%E4%B8%9C%E5%8D%9A%E7%89%A9%E9%A6%86&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.65146,117.064825&title=%E5%B1%B1%E4%B8%9C%E5%8D%9A%E7%89%A9%E9%A6%86&content=%E5%85%8D%E8%B4%B9%20%E5%BF%85%E9%A1%BB%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%A2%84%E7%BA%A6&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">12:30</span><span class="n">老济南药膳把子肉午餐</span><span class="note">午餐</span></div><div class="row"><span class="t">14:30</span><span class="n">环城公园·护城河</span><span class="note">散步</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.028,36.663&name=%E7%8E%AF%E5%9F%8E%E5%85%AC%E5%9B%AD%C2%B7%E6%8A%A4%E5%9F%8E%E6%B2%B3&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.668655,117.034626&title=%E7%8E%AF%E5%9F%8E%E5%85%AC%E5%9B%AD%C2%B7%E6%8A%A4%E5%9F%8E%E6%B2%B3&content=%E5%85%8D%E8%B4%B9%20%E5%A4%9C%E6%99%AF&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">16:30</span><span class="n">百花公园</span><span class="note">散步</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0751,36.6809&name=%E7%99%BE%E8%8A%B1%E5%85%AC%E5%9B%AD&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.686564,117.081723&title=%E7%99%BE%E8%8A%B1%E5%85%AC%E5%9B%AD&content=%E5%85%8D%E8%B4%B9%20%E6%95%A3%E6%AD%A5&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">18:30</span><span class="n">晚餐</span><span class="note">草包包子或鲁菜</span></div><div class="row"><span class="t">20:00</span><span class="n">回酒店</span><span class="note">收拾行李</span></div></div>
-<div class="day"><div class="dt">10.5 周一 · 返程日</div><div class="row"><span class="t">08:00</span><span class="n">起床退房</span><span class="note">寄存行李</span></div><div class="row"><span class="t">08:30</span><span class="n">早餐</span><span class="note">甜沫+油旋</span></div><div class="row"><span class="t">09:30</span><span class="n">大明湖补漏 / 买特产</span><span class="note">鲜花饼·莱香肠</span></div><div class="row"><span class="t">11:30</span><span class="n">午餐</span><span class="note">简餐</span></div><div class="row"><span class="t">13:00</span><span class="n">回酒店取行李</span><span class="note"></span></div><div class="row"><span class="t">14:00</span><span class="n">出发去高铁站</span><span class="note">提前2.5小时</span></div><div class="row"><span class="t">16:30</span><span class="n">济南西站</span><span class="note">高铁回衡水</span><button class="go" data-gaode="https://uri.amap.com/marker?position=116.8892,36.6757&name=%E6%B5%8E%E5%8D%97%E8%A5%BF%E7%AB%99&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.681375,116.89582&title=%E6%B5%8E%E5%8D%97%E8%A5%BF%E7%AB%99&content=10.2%20%E4%B8%8A%E5%8D%88%E5%88%B0%E8%BE%BE%20/%2010.5%20%E4%B8%8B%E5%8D%88%E8%BF%94%E8%A1%A1%E6%B0%B4&output=html&src=marvis" onclick="openNav(this)">导航</button></div></div>
+<div class="day" id="day1"><div class="dt">10.2 周五 · 到达日</div><div class="row"><span class="t">09:18</span><span class="n">济南西站</span><span class="note">到达</span><button class="go" data-gaode="https://uri.amap.com/marker?position=116.8892,36.6757&name=%E6%B5%8E%E5%8D%97%E8%A5%BF%E7%AB%99&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.681375,116.89582&title=%E6%B5%8E%E5%8D%97%E8%A5%BF%E7%AB%99&content=10.2%20%E4%B8%8A%E5%8D%88%E5%88%B0%E8%BE%BE%20/%2010.5%20%E4%B8%8B%E5%8D%88%E8%BF%94%E8%A1%A1%E6%B0%B4&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">09:45</span><span class="n">全季酒店（山大路店）</span><span class="note">打车去寄存行李</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0525,36.6725&name=%E5%85%A8%E5%AD%A3%E9%85%92%E5%BA%97%EF%BC%88%E5%B1%B1%E5%A4%A7%E8%B7%AF%E5%BA%97%EF%BC%89&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.678159,117.059125&title=%E5%85%A8%E5%AD%A3%E9%85%92%E5%BA%97%EF%BC%88%E5%B1%B1%E5%A4%A7%E8%B7%AF%E5%BA%97%EF%BC%89&content=%E4%BD%8F%E5%AE%BF%203%20%E6%99%9A&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">11:00</span><span class="n">洪家楼教堂</span><span class="note">拍照</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0607,36.6802&name=%E6%B4%AA%E5%AE%B6%E6%A5%BC%E6%95%99%E5%A0%82&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.68586,117.067324&title=%E6%B4%AA%E5%AE%B6%E6%A5%BC%E6%95%99%E5%A0%82&content=%E5%85%8D%E8%B4%B9%20%E6%8B%8D%E7%85%A7&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">12:00</span><span class="n">草包包子午餐</span><span class="note">济南老字号</span></div><div class="row"><span class="t">13:30</span><span class="n">大明湖</span><span class="note">免费 散步</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0247,36.6783&name=%E5%A4%A7%E6%98%8E%E6%B9%96&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.683955,117.031326&title=%E5%A4%A7%E6%98%8E%E6%B9%96&content=%E5%85%8D%E8%B4%B9%20%E6%97%A0%E9%9C%80%E9%A2%84%E7%BA%A6&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">15:30</span><span class="n">曲水亭街</span><span class="note">免费古街</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0252,36.6688&name=%E6%9B%B2%E6%B0%B4%E4%BA%AD%E8%A1%97&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.674455,117.031826&title=%E6%9B%B2%E6%B0%B4%E4%BA%AD%E8%A1%97&content=%E5%85%8D%E8%B4%B9%E5%8F%A4%E8%A1%97%20%E6%8B%8D%E7%85%A7&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">16:30</span><span class="n">芙蓉街</span><span class="note">油旋甜沫小吃</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0237,36.666&name=%E8%8A%99%E8%93%89%E8%A1%97&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.671655,117.030326&title=%E8%8A%99%E8%93%89%E8%A1%97&content=%E5%B0%8F%E5%90%83%EF%BC%9A%E6%B2%B9%E6%97%8B%20%E7%94%9C%E6%B2%AB&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">18:00</span><span class="n">回酒店</span><span class="note">入住休整</span></div><div class="row"><span class="t">19:00</span><span class="n">超然楼</span><span class="note">夜景 / 宽厚里夜市</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.027,36.676&name=%E8%B6%85%E7%84%B6%E6%A5%BC&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.681655,117.033626&title=%E8%B6%85%E7%84%B6%E6%A5%BC&content=%E7%BA%A6%2019%3A00%20%E4%BA%AE%E7%81%AF&output=html&src=marvis" onclick="openNav(this)">导航</button></div></div>
+<div class="day" id="day2"><div class="dt">10.3 周六 · 泉水核心日</div><div class="row"><span class="t">07:30</span><span class="n">起床早餐</span><span class="note">酒店用餐</span></div><div class="row"><span class="t">08:00</span><span class="n">趵突泉</span><span class="note">40元 早去人少</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.02,36.6617&name=%E8%B6%B5%E7%AA%81%E6%B3%89&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.667355,117.026626&title=%E8%B6%B5%E7%AA%81%E6%B3%89&content=%E9%97%A8%E7%A5%A8%2040%20%E5%85%83%20%E5%85%AC%E4%BC%97%E5%8F%B7%E8%B4%AD%E7%A5%A8&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">10:30</span><span class="n">五龙潭</span><span class="note">免费</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0171,36.6651&name=%E4%BA%94%E9%BE%99%E6%BD%AD&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.670755,117.023726&title=%E4%BA%94%E9%BE%99%E6%BD%AD&content=%E5%85%8D%E8%B4%B9%20%E6%97%A0%E9%9C%80%E9%A2%84%E7%BA%A6&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">11:30</span><span class="n">泉城广场</span><span class="note">顺路打卡</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0256,36.6598&name=%E6%B3%89%E5%9F%8E%E5%B9%BF%E5%9C%BA&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.665455,117.032226&title=%E6%B3%89%E5%9F%8E%E5%B9%BF%E5%9C%BA&content=%E5%85%8D%E8%B4%B9%20%E9%9F%B3%E4%B9%90%E5%96%B7%E6%B3%89&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">12:00</span><span class="n">超意兴午餐</span><span class="note">把子肉</span></div><div class="row"><span class="t">13:30</span><span class="n">千佛山</span><span class="note">30元 登顶看全城</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0341,36.6358&name=%E5%8D%83%E4%BD%9B%E5%B1%B1&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.641456,117.040727&title=%E5%8D%83%E4%BD%9B%E5%B1%B1&content=%E9%97%A8%E7%A5%A8%2030%20%E5%85%83%20%E7%BA%BF%E4%B8%8A%E4%B9%B0&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">17:00</span><span class="n">黑虎泉+解放阁</span><span class="note">免费 尝泉水·登阁</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0296,36.6605&name=%E9%BB%91%E8%99%8E%E6%B3%89&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.666156,117.036226&title=%E9%BB%91%E8%99%8E%E6%B3%89&content=%E5%85%8D%E8%B4%B9%20%E5%B0%9D%E6%B3%89%E6%B0%B4&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">18:30</span><span class="n">晚餐</span><span class="note">便宜坊/春江饭店</span></div><div class="row"><span class="t">20:00</span><span class="n">回酒店</span><span class="note">休息</span></div></div>
+<div class="day" id="day3"><div class="dt">10.4 周日 · 文化休闲日</div><div class="row"><span class="t">08:30</span><span class="n">起床早餐</span><span class="note">酒店用餐</span></div><div class="row"><span class="t">09:40</span><span class="n">山东博物馆</span><span class="note">免费 小程序预约</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0582,36.6458&name=%E5%B1%B1%E4%B8%9C%E5%8D%9A%E7%89%A9%E9%A6%86&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.65146,117.064825&title=%E5%B1%B1%E4%B8%9C%E5%8D%9A%E7%89%A9%E9%A6%86&content=%E5%85%8D%E8%B4%B9%20%E5%BF%85%E9%A1%BB%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%A2%84%E7%BA%A6&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">12:30</span><span class="n">老济南药膳把子肉午餐</span><span class="note">午餐</span></div><div class="row"><span class="t">14:30</span><span class="n">环城公园·护城河</span><span class="note">散步</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.028,36.663&name=%E7%8E%AF%E5%9F%8E%E5%85%AC%E5%9B%AD%C2%B7%E6%8A%A4%E5%9F%8E%E6%B2%B3&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.668655,117.034626&title=%E7%8E%AF%E5%9F%8E%E5%85%AC%E5%9B%AD%C2%B7%E6%8A%A4%E5%9F%8E%E6%B2%B3&content=%E5%85%8D%E8%B4%B9%20%E5%A4%9C%E6%99%AF&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">16:30</span><span class="n">百花公园</span><span class="note">散步</span><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0751,36.6809&name=%E7%99%BE%E8%8A%B1%E5%85%AC%E5%9B%AD&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.686564,117.081723&title=%E7%99%BE%E8%8A%B1%E5%85%AC%E5%9B%AD&content=%E5%85%8D%E8%B4%B9%20%E6%95%A3%E6%AD%A5&output=html&src=marvis" onclick="openNav(this)">导航</button></div><div class="row"><span class="t">18:30</span><span class="n">晚餐</span><span class="note">草包包子或鲁菜</span></div><div class="row"><span class="t">20:00</span><span class="n">回酒店</span><span class="note">收拾行李</span></div></div>
+<div class="day" id="day4"><div class="dt">10.5 周一 · 返程日</div><div class="row"><span class="t">08:00</span><span class="n">起床退房</span><span class="note">寄存行李</span></div><div class="row"><span class="t">08:30</span><span class="n">早餐</span><span class="note">甜沫+油旋</span></div><div class="row"><span class="t">09:30</span><span class="n">大明湖补漏 / 买特产</span><span class="note">鲜花饼·莱香肠</span></div><div class="row"><span class="t">11:30</span><span class="n">午餐</span><span class="note">简餐</span></div><div class="row"><span class="t">13:00</span><span class="n">回酒店取行李</span><span class="note"></span></div><div class="row"><span class="t">14:00</span><span class="n">出发去高铁站</span><span class="note">提前2.5小时</span></div><div class="row"><span class="t">16:30</span><span class="n">济南西站</span><span class="note">高铁回衡水</span><button class="go" data-gaode="https://uri.amap.com/marker?position=116.8892,36.6757&name=%E6%B5%8E%E5%8D%97%E8%A5%BF%E7%AB%99&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.681375,116.89582&title=%E6%B5%8E%E5%8D%97%E8%A5%BF%E7%AB%99&content=10.2%20%E4%B8%8A%E5%8D%88%E5%88%B0%E8%BE%BE%20/%2010.5%20%E4%B8%8B%E5%8D%88%E8%BF%94%E8%A1%A1%E6%B0%B4&output=html&src=marvis" onclick="openNav(this)">导航</button></div></div>
 </div>
 <div id="p2" class="panel">
 <div class="tip">17 个行程地点，点击「导航」自动复制地点名，选择高德 / 百度 / 滴滴唤起。</div>
@@ -101,10 +150,19 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif; ba
 <div class="pl"><div class="pl-l"><div class="pl-n">百花公园</div><div class="pl-d">免费 散步</div></div><div class="pl-b"><button class="go" data-gaode="https://uri.amap.com/marker?position=117.0751,36.6809&name=%E7%99%BE%E8%8A%B1%E5%85%AC%E5%9B%AD&src=marvis&coordinate=gaode" data-baidu="https://api.map.baidu.com/marker?location=36.686564,117.081723&title=%E7%99%BE%E8%8A%B1%E5%85%AC%E5%9B%AD&content=%E5%85%8D%E8%B4%B9%20%E6%95%A3%E6%AD%A5&output=html&src=marvis" onclick="openNav(this)">导航</button></div></div>
 </div>
 <div id="p3" class="panel">
-<div class="tip">出行前看天气、查票务，一键复制行程发给同行人。</div>
+<div class="tip">出行前看天气、查票务、备行装、看营业时间，一键复制行程发给同行人。</div>
 <div class="card"><div class="card-t">10月济南天气参考</div><div class="card-b">白天 12-22℃，穿薄长袖；早晚凉需加外套，备伞；山区/泉边风大，备件防风外套；出行前 1-2 天再查最新预报。</div></div>
 <div class="card"><div class="card-t">票务速查</div><div class="card-b">· 趵突泉：40元（学生20）公众号购票<br>· 千佛山：30元（学生15）线上购票<br>· 山东博物馆：免费，须「山东博物馆」小程序实名预约<br>· 大明湖 / 五龙潭 / 黑虎泉 / 解放阁 / 曲水亭街 / 芙蓉街 / 宽厚里 / 环城公园 / 百花公园 / 洪家楼教堂 / 超然楼 / 泉城广场：均免费</div></div>
+<div class="card"><div class="card-t">营业时间提醒</div><div class="card-b">· 山东博物馆：周一闭馆，9:00-17:00（16:00 停止入馆）<br>· 趵突泉：旺季 7:00-19:00<br>· 千佛山：6:30 前 / 18:00 后免费入园</div></div>
+<div class="card"><div class="card-t">打包清单</div><div class="card-b" id="packList"></div></div>
+<div class="card"><div class="card-t">雨天预案</div><div class="card-b">济南 10 月多阵雨。下雨时优先改室内 / 可避雨点：山东博物馆、宽厚里 / 芙蓉街室内档口、泉城广场地下商场；出门记得带伞。</div></div>
 <div class="card"><div class="card-t">一键复制行程</div><div class="card-b"><button class="copy-btn" onclick="copyItinerary()">复制行程文本</button><div class="copy-tip" id="copyTip"></div></div></div>
+<div class="card"><div class="card-t">分享线上链接</div><div class="card-b"><button class="copy-btn" onclick="copyLink()">复制线上链接</button><div class="copy-tip" id="linkTip"></div></div></div>
+</div>
+<div id="p4" class="panel">
+<div class="tip">随手记一笔，旅行开支一目了然；数据保存在本机。</div>
+<div class="card"><div class="card-t">添加记录</div><div class="card-b"><div class="exp-row"><input id="expPlace" class="exp-in" placeholder="地点（如：趵突泉）"><input id="expItem" class="exp-in" placeholder="项目（如：门票）"><input id="expAmount" class="exp-in exp-amt" type="number" min="0" step="0.01" placeholder="金额"></div><button class="copy-btn" onclick="addExpense()">添加</button></div></div>
+<div class="card"><div class="card-t">消费记录</div><div class="card-b" id="expList"></div><div class="exp-total">合计：<span id="expTotal">¥0.00</span></div><button class="exp-clear" onclick="clearExpenses()">清空记录</button></div>
 </div>
 <div class="foot">济南国庆行 · PWA 版 ｜ 点右上角分享 → 添加到主屏幕，即可像 App 一样使用</div>
 
@@ -173,9 +231,11 @@ function sw(n) {
   document.getElementById("tab1").className = n === 1 ? "on" : "";
   document.getElementById("tab2").className = n === 2 ? "on" : "";
   document.getElementById("tab3").className = n === 3 ? "on" : "";
+  document.getElementById("tab4").className = n === 4 ? "on" : "";
   document.getElementById("p1").className = n === 1 ? "panel on" : "panel";
   document.getElementById("p2").className = n === 2 ? "panel on" : "panel";
   document.getElementById("p3").className = n === 3 ? "panel on" : "panel";
+  document.getElementById("p4").className = n === 4 ? "panel on" : "panel";
 }
 function copyItinerary() {
   var txt = '济南行 10.2-10.5\n' +
@@ -188,6 +248,148 @@ function copyItinerary() {
   var tip = document.getElementById("copyTip");
   if (tip) tip.textContent = '已复制行程文本，可直接粘贴发送';
 }
+/* 打包清单 */
+var PACK_ITEMS = ['身份证','充电宝','雨伞','洗漱包','换洗衣物','常用药','纸巾湿巾','零食','水杯','防晒'];
+function renderPack() {
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem('jinan_pack') || '{}'); } catch (e) {}
+  var box = document.getElementById('packList');
+  if (!box) return;
+  box.innerHTML = '';
+  PACK_ITEMS.forEach(function (it) {
+    var d = document.createElement('label');
+    d.className = 'pack-item' + (saved[it] ? ' done' : '');
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!saved[it];
+    cb.onchange = function () {
+      saved[it] = cb.checked;
+      try { localStorage.setItem('jinan_pack', JSON.stringify(saved)); } catch (e) {}
+      d.className = 'pack-item' + (cb.checked ? ' done' : '');
+    };
+    var s = document.createElement('span');
+    s.textContent = it;
+    d.appendChild(cb); d.appendChild(s);
+    box.appendChild(d);
+  });
+}
+/* 今日行程自动定位 */
+function todayHighlight() {
+  var d = new Date();
+  if (d.getMonth() !== 9) return;
+  var day = d.getDate();
+  if (day < 2 || day > 5) return;
+  var el = document.getElementById('day' + (day - 1));
+  if (el) el.classList.add('hl');
+}
+/* 出发倒计时 */
+function renderCountdown() {
+  var el = document.getElementById('countdown');
+  if (!el) return;
+  var now = new Date();
+  var y = now.getFullYear();
+  var dep = new Date(y, 9, 2);
+  var end = new Date(y, 9, 5, 23, 59, 59);
+  if (now < dep) {
+    var days = Math.ceil((dep - now) / 86400000);
+    el.textContent = '距出发还有 ' + days + ' 天';
+  } else if (now.getDate() === 2 && now.getMonth() === 9) {
+    el.textContent = '今天出发！';
+  } else if (now <= end) {
+    el.textContent = '旅程进行中';
+  } else {
+    el.textContent = '旅程已结束';
+  }
+}
+/* 深色模式 */
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  var btn = document.getElementById('themeBtn');
+  if (btn) btn.textContent = theme === 'dark' ? '浅色模式' : '深色模式';
+  try { localStorage.setItem('jinan_theme', theme); } catch (e) {}
+}
+function initTheme() {
+  var saved = null;
+  try { saved = localStorage.getItem('jinan_theme'); } catch (e) {}
+  var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(theme);
+}
+function toggleTheme() {
+  var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  applyTheme(cur === 'dark' ? 'light' : 'dark');
+}
+/* 复制线上链接 */
+function copyLink() {
+  copyText('https://caominglei1.github.io/jinan-trip-app/');
+  var tip = document.getElementById('linkTip');
+  if (tip) tip.textContent = '已复制线上链接，可直接粘贴发送';
+}
+/* 旅行记账 */
+function loadExpenses() {
+  try { return JSON.parse(localStorage.getItem('jinan_expenses') || '[]'); } catch (e) { return []; }
+}
+function saveExpenses(list) {
+  try { localStorage.setItem('jinan_expenses', JSON.stringify(list)); } catch (e) {}
+}
+function renderExpenses() {
+  var list = loadExpenses();
+  var box = document.getElementById('expList');
+  if (!box) return;
+  box.innerHTML = '';
+  var total = 0;
+  list.forEach(function (r) {
+    total += Number(r.amount) || 0;
+    var d = document.createElement('div');
+    d.className = 'exp-item';
+    var info = document.createElement('div');
+    info.className = 'exp-info';
+    var nm = document.createElement('div');
+    nm.className = 'exp-name';
+    nm.textContent = r.place || '未填地点';
+    var sub = document.createElement('div');
+    sub.className = 'exp-sub';
+    sub.textContent = r.item || '';
+    info.appendChild(nm); info.appendChild(sub);
+    var amt = document.createElement('span');
+    amt.className = 'exp-amt-t';
+    amt.textContent = '¥' + (Number(r.amount) || 0).toFixed(2);
+    var del = document.createElement('button');
+    del.className = 'exp-del';
+    del.textContent = '删除';
+    del.onclick = function () {
+      var l = loadExpenses();
+      l = l.filter(function (x) { return x.id !== r.id; });
+      saveExpenses(l); renderExpenses();
+    };
+    d.appendChild(info); d.appendChild(amt); d.appendChild(del);
+    box.appendChild(d);
+  });
+  var t = document.getElementById('expTotal');
+  if (t) t.textContent = '¥' + total.toFixed(2);
+}
+function addExpense() {
+  var place = document.getElementById('expPlace').value.trim();
+  var item = document.getElementById('expItem').value.trim();
+  var amt = parseFloat(document.getElementById('expAmount').value);
+  if (isNaN(amt) || amt < 0) { alert('请输入有效金额'); return; }
+  var list = loadExpenses();
+  list.push({ id: Date.now() + Math.random(), place: place, item: item, amount: amt });
+  saveExpenses(list);
+  document.getElementById('expItem').value = '';
+  document.getElementById('expAmount').value = '';
+  renderExpenses();
+}
+function clearExpenses() {
+  if (!confirm('确定清空全部记账记录？此操作不可恢复。')) return;
+  saveExpenses([]);
+  renderExpenses();
+}
+/* 初始化 */
+renderPack();
+todayHighlight();
+renderCountdown();
+initTheme();
+renderExpenses();
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
 </script>
 
