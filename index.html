@@ -54,6 +54,9 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif; ba
 .sheet-item.baidu { background:#ff8f1f; color:#fff; }
 .sheet-item.didi { background:#2db94e; color:#fff; font-weight:600; }
 .sheet-cancel { display:block; width:100%; border:none; background:transparent; padding:12px 0 6px; font-size:14px; color:#999; text-align:center; }
+.sheet-web { font-size:12px; color:#999; text-align:center; padding:0 0 2px; }
+.sheet-web a { color:#1677ff; text-decoration:none; margin:0 3px; }
+.sheet-web a:active { opacity:.7; }
 .card { background:#fff; border-radius:12px; padding:12px; margin-bottom:8px; box-shadow:0 2px 8px rgba(0,0,0,.06); }
 .card-t { font-size:14px; font-weight:700; color:#1677ff; margin-bottom:6px; }
 .card-b { font-size:13px; color:#333; line-height:1.7; }
@@ -99,6 +102,8 @@ html[data-theme="dark"] .foot { background:#1c1f23; border-top-color:#2a2e34; co
 html[data-theme="dark"] .sheet { background:#1c1f23; }
 html[data-theme="dark"] .sheet-title { color:#e5e7eb; }
 html[data-theme="dark"] .sheet-cancel { color:#9aa0a6; }
+html[data-theme="dark"] .sheet-web { color:#6b7280; }
+html[data-theme="dark"] .sheet-web a { color:#60a5fa; }
 html[data-theme="dark"] .exp-in { background:#121417; border-color:#2a2e34; color:#e5e7eb; }
 html[data-theme="dark"] .pack-item { border-bottom-color:#2a2e34; color:#e5e7eb; }
 html[data-theme="dark"] .pack-item.done span { color:#6b7280; }
@@ -227,8 +232,60 @@ function closeNav() {
   document.getElementById("navMask").style.display = "none";
   document.getElementById("navSheet").classList.remove("on");
 }
-function goGaode() { closeNav(); location.href = _nav.gaode; }
-function goBaidu() { closeNav(); location.href = _nav.baidu; }
+function parseNavData(gaodeUrl, baiduUrl) {
+  function q(url, key) {
+    var m = url.match(new RegExp('[?&]' + key + '=([^&]*)'));
+    return m ? decodeURIComponent(m[1]) : '';
+  }
+  var gp = q(gaodeUrl, 'position').split(',');
+  var bp = q(baiduUrl, 'location').split(',');
+  return {
+    gaode: { lon: parseFloat(gp[0]), lat: parseFloat(gp[1]), name: q(gaodeUrl, 'name') },
+    baidu: { lat: parseFloat(bp[0]), lon: parseFloat(bp[1]), name: q(baiduUrl, 'title') }
+  };
+}
+function buildNavLinks(placeData) {
+  var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  var g = placeData.gaode, b = placeData.baidu;
+  var gName = encodeURIComponent(g.name), bName = encodeURIComponent(b.name);
+  if (isIOS) {
+    return {
+      gaode: 'iosamap://path?sourceApplication=marvis&dname=' + gName + '&dlat=' + g.lat + '&dlon=' + g.lon + '&dev=0&t=0',
+      baidu: 'baidumap://map/marker?location=' + b.lat + ',' + b.lon + '&title=' + bName + '&content=' + encodeURIComponent('行程地点') + '&src=marvis'
+    };
+  }
+  return {
+    gaode: 'androidamap://navi?sourceApplication=marvis&lat=' + g.lat + '&lon=' + g.lon + '&poiname=' + gName + '&dev=0&style=2',
+    baidu: 'bdmap://map/marker?location=' + b.lat + ',' + b.lon + '&title=' + bName + '&content=' + encodeURIComponent('行程地点') + '&src=marvis'
+  };
+}
+function launchScheme(url, fallbackUrl) {
+  var launched = false, timer;
+  function onVis() { if (document.hidden) { launched = true; cleanup(); } }
+  function cleanup() {
+    clearTimeout(timer);
+    document.removeEventListener("visibilitychange", onVis);
+    window.removeEventListener("pagehide", onVis);
+  }
+  function fb() { if (!launched) { cleanup(); if (fallbackUrl) location.href = fallbackUrl; } }
+  timer = setTimeout(fb, 1200);
+  document.addEventListener("visibilitychange", onVis);
+  window.addEventListener("pagehide", onVis);
+  closeNav();
+  try { location.href = url; } catch (e) { fb(); }
+}
+function goGaode() {
+  var links = buildNavLinks(parseNavData(_nav.gaode, _nav.baidu));
+  launchScheme(links.gaode, _nav.gaode);
+}
+function goBaidu() {
+  var links = buildNavLinks(parseNavData(_nav.gaode, _nav.baidu));
+  launchScheme(links.baidu, _nav.baidu);
+}
+function goWeb(type) {
+  closeNav();
+  location.href = type === 'baidu' ? _nav.baidu : _nav.gaode;
+}
 function goDidi() {
   var ua = navigator.userAgent;
   var isIOS = /iPhone|iPad|iPod/i.test(ua);
@@ -474,6 +531,7 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
   <button class="sheet-item gaode" onclick="goGaode()">高德地图</button>
   <button class="sheet-item baidu" onclick="goBaidu()">百度地图</button>
   <button class="sheet-item didi" onclick="goDidi()">滴滴打车</button>
+  <div class="sheet-web">未安装 App？<a href="javascript:;" onclick="goWeb('gaode')">高德网页版</a> · <a href="javascript:;" onclick="goWeb('baidu')">百度网页版</a></div>
   <button class="sheet-cancel" onclick="closeNav()">取消</button>
 </div>
 </body>
